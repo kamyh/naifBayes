@@ -6,9 +6,14 @@ from naifBayes import NaifBayes
 def main():
     dir = "./data/untagged/"
     d = DataCollector(dir)
-    list_test_pos, list_training_pos, list_test_neg, list_training_neg = d.get_divide(0.8)
 
-    nB = NaifBayes(d)
+
+    nB = NaifBayes(d, 0.8)
+    is_canonical = True
+    nB.count_words(is_canonical)
+    nB.compute_proba()
+    nB.compute_type()
+    nB.compute_tests(is_canonical)
 
 if __name__ == "__main__":
     main()
