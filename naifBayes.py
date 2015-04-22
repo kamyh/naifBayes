@@ -66,14 +66,16 @@ class NaifBayes:
     # return true if document positive
     def compute_test(self, document, is_canonical):
         if is_canonical:
+            def find_words(line):
+                listword = line.split(" ")
+                for word in listword:
+                    yield word
+        else:
             list_taken =['VER','ADJ','ADV', 'NOM', 'NAM']
             def find_words(line):
                 split = line.split(' ')
                 if split[1].split(':')[0] in list_taken:
                     yield split[-1]
-        else:
-            def find_words(line):
-                yield line.split(" ")[-1]
 
         proba_pos = 1.
         proba_neg = 1.
