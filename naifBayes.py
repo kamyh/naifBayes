@@ -23,15 +23,17 @@ class NaifBayes:
                 for word in listword:
                     yield word
         else:
+            List_taken =['VER','ADJ','ADV', 'NOM', 'NAM']
             def find_words(line):
-                yield line.split(" ")[-1]
+                split = line.split(' ')
+                if split[1].split(':')[0]:
+                    yield split[-1]
 
         self.dict_words = dict()
         self.list_test_pos, self.list_training_pos, self.list_test_neg, self.list_training_neg = self.data_collector.get_divide(self.traning_percentage)
 
-        print("zgeg1")
+
         for file_name in self.list_training_pos:
-            print(file_name)
             with open(file_name) as file:
                 for line in file.readlines():
                     for word in find_words(line):
@@ -41,9 +43,8 @@ class NaifBayes:
                         else:
                             self.dict_words[word] = Word(word)
 
-        print("zgeg2")
+
         for file_name in self.list_training_neg:
-            print(file_name)
             with open(file_name) as file:
                 for line in file.readlines():
                     for word in find_words(line):
@@ -53,15 +54,12 @@ class NaifBayes:
                         else:
                             self.dict_words[word] = Word(word)
 
-        print("zgeg")
 
     def compute_proba(self):
-        print("compute_proba")
         for word in self.dict_words.values():
             word.compute_probas(self.nbr_pos,self.nbr_neg)
 
     def compute_type(self):
-        print("compute_type")
         for word in self.dict_words.values():
             word.define_type()
 
@@ -92,7 +90,6 @@ class NaifBayes:
         return proba_pos > proba_neg
 
     def compute_tests(self, is_canonical):
-        print("compute_tests")
         tot = 0.
         ok = 0.
 

@@ -4,7 +4,7 @@ from dataCollector import DataCollector
 from naifBayes import NaifBayes
 
 def main():
-    dir = "./data/untagged/"
+    dir = "./data/tagged/"
     d = DataCollector(dir)
 
 
