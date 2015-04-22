@@ -3,6 +3,7 @@ __author__ = 'derua_000'
 from word import Word
 from math import log
 from dataCollector import DataCollector
+import codecs
 
 class NaifBayes:
     def __init__(self, data_collector,traning_percentage):
@@ -34,7 +35,7 @@ class NaifBayes:
 
 
         for file_name in self.list_training_pos:
-            with open(file_name) as file:
+            with codecs.open(file_name, "r", "utf-8") as file:
                 for line in file.readlines():
                     for word in find_words(line):
                         if word in self.dict_words.keys():
@@ -45,7 +46,7 @@ class NaifBayes:
 
 
         for file_name in self.list_training_neg:
-            with open(file_name) as file:
+            with codecs.open(file_name, "r", "utf-8") as file:
                 for line in file.readlines():
                     for word in find_words(line):
                         if word in self.dict_words.keys():
@@ -80,7 +81,7 @@ class NaifBayes:
         proba_pos = 1.
         proba_neg = 1.
 
-        with open(document) as file:
+        with codecs.open(document, "r", "utf-8") as file:
             for line in file.readlines():
                 for word in find_words(line):
                     if word in self.dict_words.keys():
