@@ -23,10 +23,10 @@ class NaifBayes:
                 for word in listword:
                     yield word
         else:
-            List_taken =['VER','ADJ','ADV', 'NOM', 'NAM']
+            list_taken =['VER','ADJ','ADV', 'NOM', 'NAM']
             def find_words(line):
                 split = line.split(' ')
-                if split[1].split(':')[0]:
+                if split[1].split(':')[0] in list_taken:
                     yield split[-1]
 
         self.dict_words = dict()
@@ -66,10 +66,11 @@ class NaifBayes:
     # return true if document positive
     def compute_test(self, document, is_canonical):
         if is_canonical:
+            list_taken =['VER','ADJ','ADV', 'NOM', 'NAM']
             def find_words(line):
-                listword = line.split(" ")
-                for word in listword:
-                    yield word
+                split = line.split(' ')
+                if split[1].split(':')[0] in list_taken:
+                    yield split[-1]
         else:
             def find_words(line):
                 yield line.split(" ")[-1]
