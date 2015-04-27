@@ -1,30 +1,17 @@
 from dataCollector import DataCollector
 from naifBayes import NaifBayes
 
-import time
+def compute_probas(directory_tagged, directory_untagged, percentage=0.8, number_blocks=10):
+    d = DataCollector(directory_tagged)
+    nB = NaifBayes(d, percentage, number_blocks )
+    results = nB.compute_all(directory_tagged, directory_untagged)
 
-def timeit(method):
-    def timed(*args, **kw):
-        ts = time.time()
-        result = method(*args, **kw)
-        te = time.time()
-        print ('%r (%r, %r) %2.2f sec' % (method.__name__, args, kw, te-ts))
-        return result
-    return timed
 
-@timeit
-def compute_probas(directory, is_canonical=True):
-    dir = directory
-    d = DataCollector(dir)
-
-    percentage = 0.8
-    nB = NaifBayes(d, percentage )
-    result = nB.compute_all(is_canonical)
-    print ("Resultat = %f" % result )
+    for name, tupleResult in sorted(results.items(), key=lambda key: key[0]):
+        print(name, " %Pos:", tupleResult[0], " %Neg", tupleResult[1], " %Tot",tupleResult[2], " Time",tupleResult[3])
 
 def main():
-    path = "./data/tagged/" #tagged or untagged
-    compute_probas(path , "./data/untagged/" != path)
+    compute_probas( "./data/tagged/" , "./data/untagged/")
 
 if __name__ == "__main__":
     main()
