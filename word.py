@@ -1,5 +1,3 @@
-__author__ = 'derua_000'
-
 class Type():
     negatif = 0
     positif = 1
@@ -22,8 +20,8 @@ class Word:
 
     """ nombre de mot positif,negatif total dans les donnees dentrees """
     def compute_probas(self,nbr_pos,nbr_neg):
-        proba_sachant_positif = (self.count_pos)/(nbr_pos)
-        proba_sachant_negatif = (self.count_neg)/(nbr_neg)
+        proba_sachant_positif = (self.count_pos)/(nbr_pos + 1)
+        proba_sachant_negatif = (self.count_neg)/(nbr_neg + 1)
         proba_word = (self.count_pos+self.count_neg)
 
         self.proba_pos = (proba_sachant_positif * nbr_pos)/(proba_word)

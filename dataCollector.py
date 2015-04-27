@@ -1,4 +1,3 @@
-__author__ = 'derua_000'
 import glob
 
 class DataCollector:
@@ -23,6 +22,12 @@ class DataCollector:
 
         return list_test_pos, list_training_pos, list_test_neg, list_training_neg
 
+    def get_cross_validation_generator(self, number_blocks):
+        for i in range(number_blocks):
+            list_test_pos, list_training_pos = DataCollector.cross_validation_list(self.files_pos, i, number_blocks)
+            list_test_neg, list_training_neg = DataCollector.cross_validation_list(self.files_neg, i, number_blocks)
+            yield list_test_pos, list_training_pos, list_test_neg, list_training_neg
+
     @staticmethod
     def divide_list(list_files, training_percentage):
         from random import random
@@ -35,3 +40,9 @@ class DataCollector:
             list_training.append(list_files_copy.pop(int(index)))
 
         return list_files_copy, list_training
+
+    @staticmethod
+    def cross_validation_list(list_files, i, number_blocks):
+        length_block = len(list_files)/number_blocks
+        list_training = list_files[i*length_block: (i+1)*length_block]
+        return  [x for x in list_files if x not in list_training], list_training
